@@ -5,40 +5,57 @@ if (typeof AFRAME === 'undefined') {
 /**
  * Example component for A-Frame.
  */
-AFRAME.registerComponent('example', {
-  schema: { },
+AFRAME.registerComponent('wiggledemo', {
+  schema: { default: true },
 
-  /**
-   * Called once when component is attached. Generally for initial setup.
-   */
-  init: function () { },
+  init: function () {
+      var scene = document.querySelector('a-scene');
 
-  /**
-   * Called when component is attached and when component data changes.
-   * Generally modifies the entity based on the data.
-   */
-  update: function (oldData) { },
+       if (scene.hasLoaded) {
+           startDemo();
+       } else {
+           scene.addEventListener('loaded', this.startDemo);
+           scene.addEventListener('enter-vr', this.stopDemo);
+           scene.addEventListener('exit-vr', this.startDemo);
+       }
+   },
 
-  /**
-   * Called when a component is removed (e.g., via removeAttribute).
-   * Generally undoes all modifications to the entity.
-   */
-  remove: function () { },
+   startDemo: function(){
+         var scene = document.querySelector('a-scene');
+         var animations = scene.querySelector('a-animation.right_eye');
+         var camera = scene.querySelector('a-camera');
 
-  /**
-   * Called on each scene tick.
-   */
-  // tick: function (t) { },
+         animations.setAttribute('begin', '2');
+         animations.setAttribute('dur', '700');
+         animations.setAttribute('direction', 'alternate');
+         animations.setAttribute('ease', 'ease-in-out');
+         animations.setAttribute('fill', 'forwards');
+         animations.setAttribute('from', '0');
+         animations.setAttribute('to', '1');
+         animations.setAttribute('repeat', 'indefinite');
 
-  /**
-   * Called when entity pauses.
-   * Use to stop or remove any dynamic or background behavior such as events.
-   */
-  pause: function () { },
+         camera.setAttribute('touch-controls', {enabled: false});
 
-  /**
-   * Called when entity resumes.
-   * Use to continue or add any dynamic or background behavior such as events.
-   */
-  play: function () { },
+       },
+
+       stopDemo: function() {
+         var scene = document.querySelector('a-scene');
+         var animations = scene.querySelector('a-animation.right_eye');
+         var camera = scene.querySelector('a-camera');
+
+         animations.setAttribute('dur', '1');
+         animations.setAttribute('repeat', '0');
+         animations.setAttribute('from', '1');
+         animations.setAttribute('to', '1');
+
+         camera.setAttribute('touch-controls', {enabled: true});
+       },
+
+       tick: function(time) {
+           var scene = document.querySelector('a-scene');
+
+           scene.addEventListener('loaded', scene.startDemo);
+           scene.addEventListener('enter-vr', scene.stopDemo);
+           scene.addEventListener('exit-vr', scene.startDemo);
+       },
 });

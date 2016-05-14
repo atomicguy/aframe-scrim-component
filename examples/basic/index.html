@@ -1,12 +1,42 @@
 <html>
-  <head>
-    <title>A-Frame Example Component - Basic</title>
-    <script src="../build.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-assets></a-assets>
-      <a-entity geometry="primitive: box" material="color: #C03546"></a-entity>
-    </a-scene>
-  </body>
-</html>
+<head>
+  <title>Wiggle-gram Test</title>
+  <script src="../build.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v1.14.1/dist/aframe-extras.min.js"></script>
+</head>
+<body>
+   <a-scene>
+       <a-assets>
+           <img id="L-orange" alt="Oranges L" src="./L_luna.jpg">
+           <img id="R-orange" alt="Oranges R" src="./R_luna.jpg">
+       </a-assets>
+
+
+      <a-sky color="#FFF"></a-sky>
+      <a-light color="#333" position="0 5 0" type="ambient" intensity="0.2"></a-light>
+      <a-light type="point" color="#EEE" intensity="1.0" position="3 3 10"></a-light>
+
+      <!-- 'left' eye entities will pass through the camera in non-VR mode -->
+
+      <a-camera position="0 0 2" wiggledemo universal-controls touch-controls stereocam="eye:both">
+      </a-camera>
+
+      <!-- in VR mode, the first box is displayed only in the left eye, the second one in the right eye -->
+
+      <a-entity geometry="primitive: plane; height: 2; width: 2"
+                material="src: #L-orange"
+                stereo="eye:left">
+      </a-entity>
+
+      <a-entity
+                geometry="primitive: plane; height: 2; width: 2"
+                material="src: #R-orange"
+                stereo="eye: right">
+                <a-animation class="right_eye" attribute="material.opacity">
+                </a-animation>
+      </a-entity>
+
+   </a-scene>
+
+ </body>
+ </html>
