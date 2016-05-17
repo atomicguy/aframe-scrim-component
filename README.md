@@ -1,6 +1,6 @@
-## aframe-example-component
+## aframe-scrim-component
 
-A example component for [A-Frame](https://aframe.io).
+A scrim component for [A-Frame](https://aframe.io).
 
 ### Properties
 
