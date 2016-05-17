@@ -21,7 +21,7 @@
         <a-camera position="0 0 2" stereocam="eye:left">
         </a-camera>
 
-        <a-entity id="thisthing">
+        <a-entity id="thisthing" position="-1 0 0">
             <a-entity geometry="primitive: plane; height: 2; width: 2" material="src: #L-luna" stereo="eye:left">
             </a-entity>
 
@@ -29,11 +29,11 @@
             </a-entity>
         </a-entity>
 
-        <a-entity id="thatthing" position="3 0 0" rotation="0 10 0">
+        <a-entity id="thatthing" position="1 0 -1" rotation="0 -2 0">
             <a-entity geometry="primitive: plane; height: 2; width: 2" material="src: #L-luna" stereo="eye:left">
             </a-entity>
 
-            <a-entity scrim geometry="primitive: plane; height: 2; width: 2" material="src: #R-luna" stereo="eye: right">
+            <a-entity position="0 0 0.5" scrim geometry="primitive: plane; height: 2; width: 2" material="color: #17124F" stereo="eye: right">
             </a-entity>
         </a-entity>
 
