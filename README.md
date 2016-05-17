@@ -2,11 +2,11 @@
 
 A scrim component for [A-Frame](https://aframe.io).
 
-### Properties
+<!-- ### Properties
 
 | Property | Description | Default Value |
 | -------- | ----------- | ------------- |
-|          |             |               |
+|          |             |               | -->
 
 ### Usage
 
