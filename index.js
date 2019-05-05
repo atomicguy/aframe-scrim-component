@@ -1,76 +1,62 @@
+/* global AFRAME */
+
 if (typeof AFRAME === 'undefined') {
-    throw new Error('Component attempted to register before AFRAME was available.');
+  throw new Error('Component attempted to register before AFRAME was available.');
 }
 
 /**
- * Attach to an A-Frame element and it will fade in and out
+ * Scrim component for A-Frame.
  */
 AFRAME.registerComponent('scrim', {
-    schema: {
-        timer: { type: 'int', default: 700 }
-    },
+  schema: {
+    durration: {default: '900'},
+    easing: {default: 'easeInOutCirc'}
+  },
 
-    init: function() {
-        document.querySelector('a-scene').addEventListener('enter-vr', this.pause(this));
-        document.querySelector('a-scene').addEventListener('exit-vr', this.play);
+  /**
+   * Set if component needs multiple instancing.
+   */
+  multiple: false,
 
-        // var thisEl = this.el;
-        // var scrim = document.createElement('a-animation');
-        //
-        // var timing = this.data.timer;
-        //
-        // thisEl.appendChild(scrim);
-        //
-        // scrim.setAttribute('attribute', 'material.opacity');
-        // scrim.setAttribute('dur', timing);
-        // scrim.setAttribute('direction', 'alternate');
-        // scrim.setAttribute('ease', 'ease-in-out');
-        // scrim.setAttribute('fill', 'forwards');
-        // scrim.setAttribute('from', '0');
-        // scrim.setAttribute('to', '1');
-        // scrim.setAttribute('repeat', 'indefinite');
-    },
+  /**
+   * Called once when component is attached. Generally for initial setup.
+   */
+  init: function () {
+    var thisEl = this.el;
+    var data = this.data
 
-    remove: function() {
-        this.el.removeElement('a-animation');
-    },
+    var properties = 'property: material.opacity; from: 0; to: 1; dir: alternate; loop: true'
+    properties = properties.concat(properties,'; dur: ', data.durration, '; easing: ', data.easing)
 
-    play: function() {
-        // var target = document.querySelector('a-entity');
-        // var animation = document.createElement('a-animation');
-        //
-        // target.appendChild(animation);
+    thisEl.setAttribute('animation', properties)
+  },
 
-        var thisEl = this.el;
-        var scrim = document.createElement('a-animation');
+  /**
+   * Called when component is attached and when component data changes.
+   * Generally modifies the entity based on the data.
+   */
+  update: function (oldData) { },
 
-        var timing = this.data.timer;
+  /**
+   * Called when a component is removed (e.g., via removeAttribute).
+   * Generally undoes all modifications to the entity.
+   */
+  remove: function () { },
 
-        thisEl.appendChild(scrim);
+  /**
+   * Called on each scene tick.
+   */
+  // tick: function (t) { },
 
-        scrim.setAttribute('attribute', 'material.opacity');
-        scrim.setAttribute('ease', 'ease-in-out');
-        scrim.setAttribute('direction', 'alternate');
-        scrim.setAttribute('dur', timing);
-        scrim.setAttribute('fill', 'forwards');
-        scrim.setAttribute('from', '1');
-        scrim.setAttribute('to', '0');
-        scrim.setAttribute('repeat', 'indefinite');
-    },
+  /**
+   * Called when entity pauses.
+   * Use to stop or remove any dynamic or background behavior such as events.
+   */
+  pause: function () { },
 
-    pause: function() {
-        // var animation = document.querySelector('a-animation');
-        // var target = animation.parentNode;
-
-        var scrim = this.el.children;
-
-        console.log(scrim);
-
-
-        // var thisEl = this;
-        // console.log('pause triggered');
-        // console.log(thisEl);
-
-    },
-
+  /**
+   * Called when entity resumes.
+   * Use to continue or add any dynamic or background behavior such as events.
+   */
+  play: function () { }
 });
