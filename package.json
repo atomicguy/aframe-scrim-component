@@ -1,16 +1,20 @@
 {
   "name": "aframe-scrim-component",
-  "version": "0.1.0",
-  "description": "Scrim Component for A-Frame.",
+  "version": "1.0.0",
+  "description": "A Theatrical Scrim for A-Frame",
   "main": "index.js",
+  "unpkg": "dist/aframe-scrim-component.min.js",
   "scripts": {
-    "build": "browserify examples/main.js -o examples/build.js",
-    "dev": "budo examples/main.js:build.js --dir examples --port 8000 --live --open",
-    "dist": "webpack index.js dist/aframe-scrim-component.js && webpack -p index.js dist/aframe-scrim-component.min.js",
-    "postpublish": "npm run dist",
-    "preghpages": "npm run build && shx rm -rf gh-pages && shx cp -r examples gh-pages",
-    "ghpages": "npm run preghpages && ghpages -p gh-pages",
-    "unboil": "node scripts/unboil.js"
+    "build": "webpack index.js dist/aframe-scrim-component.js",
+    "dev": "budo index.js:dist/aframe-scrim-component.min.js --port 7000 --live --open",
+    "dist": "npm run build && uglifyjs dist/aframe-scrim-component.js > dist/aframe-scrim-component.min.js",
+    "lint": "semistandard -v | snazzy",
+    "prepublish": "npm run dist",
+    "ghpages": "ghpages",
+    "start": "npm run dev",
+    "test": "karma start ./tests/karma.conf.js",
+    "test:firefox": "karma start ./tests/karma.conf.js --browsers Firefox",
+    "test:chrome": "karma start ./tests/karma.conf.js --browsers Chrome"
   },
   "repository": {
     "type": "git",
@@ -21,24 +25,50 @@
     "aframe-component",
     "aframe-vr",
     "vr",
-    "mozvr",
-    "webvr"
+    "webvr",
+    "scrim"
   ],
   "author": "Adam Schuster <adam@atompowered.net>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/atomicguy/aframe-scrim-component/issues"
   },
-  "homepage": "https://github.com/ngokevin/aframe-scrim-component#readme",
+  "homepage": "https://github.com/atomicguy/aframe-scrim-component#readme",
   "devDependencies": {
-    "aframe": "^0.2.0",
+    "aframe": "*",
     "browserify": "^13.0.0",
-    "browserify-css": "^0.9.1",
     "budo": "^8.2.2",
+    "chai": "^3.4.1",
+    "chai-shallow-deep-equal": "^1.3.0",
     "ghpages": "^0.0.8",
-    "inquirer": "^1.0.2",
+    "karma": "^0.13.15",
+    "karma-browserify": "^4.4.2",
+    "karma-chai-shallow-deep-equal": "0.0.4",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-mocha": "^0.2.1",
+    "karma-mocha-reporter": "^1.1.3",
+    "karma-sinon-chai": "^1.1.0",
+    "mocha": "^2.3.4",
+    "randomcolor": "^0.4.4",
+    "semistandard": "^8.0.0",
     "shelljs": "^0.7.0",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0",
     "shx": "^0.1.1",
-    "webpack": "^1.13.0"
+    "snazzy": "^4.0.0",
+    "uglify-es": "github:mishoo/UglifyJS2#harmony",
+    "webpack": "^2.7.0"
+  },
+  "semistandard": {
+    "globals": [
+      "AFRAME",
+      "THREE"
+    ],
+    "ignore": [
+      "examples/build.js",
+      "dist/**"
+    ]
   }
 }

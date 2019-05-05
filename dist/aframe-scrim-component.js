@@ -1,91 +1,138 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
+/******/ 		if(installedModules[moduleId]) {
 /******/ 			return installedModules[moduleId].exports;
-
+/******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-
+/******/ 		module.l = true;
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
-	if (typeof AFRAME === 'undefined') {
-	    throw new Error('Component attempted to register before AFRAME was available.');
-	}
+/* global AFRAME */
 
-	/**
-	 * Attach to an A-Frame element and it will fade in and out
-	 */
-	AFRAME.registerComponent('scrim', {
-	    schema: {
-	        default: true
-	    },
+if (typeof AFRAME === 'undefined') {
+  throw new Error('Component attempted to register before AFRAME was available.');
+}
 
-	    init: function() {
-	        var thisEl = this.el;
-	        var scrim = document.createElement('a-animation');
+/**
+ * Scrim component for A-Frame.
+ */
+AFRAME.registerComponent('scrim', {
+  schema: {
+    durration: {default: '900'},
+    easing: {default: 'easeInOutCirc'}
+  },
 
-	        thisEl.appendChild(scrim);
+  /**
+   * Set if component needs multiple instancing.
+   */
+  multiple: false,
 
-	        scrim.setAttribute('attribute', 'material.opacity');
-	        scrim.setAttribute('dur', '700');
-	        scrim.setAttribute('direction', 'alternate');
-	        scrim.setAttribute('ease', 'ease-in-out');
-	        scrim.setAttribute('fill', 'forwards');
-	        scrim.setAttribute('from', '0');
-	        scrim.setAttribute('to', '1');
-	        scrim.setAttribute('repeat', 'indefinite');
-	    },
+  /**
+   * Called once when component is attached. Generally for initial setup.
+   */
+  init: function () {
+    var thisEl = this.el;
+    var data = this.data
 
-	    remove: function() {
-	        this.el.removeElement('a-animation');
-	    },
+    var properties = 'property: material.opacity; from: 0; to: 1; dir: alternate; loop: true'
+    properties = properties.concat(properties,'; dur: ', data.durration, '; easing: ', data.easing)
 
-	    play: function() {
+    thisEl.setAttribute('animation', properties)
+  },
 
-	    },
+  /**
+   * Called when component is attached and when component data changes.
+   * Generally modifies the entity based on the data.
+   */
+  update: function (oldData) { },
 
-	    pause: function() {
+  /**
+   * Called when a component is removed (e.g., via removeAttribute).
+   * Generally undoes all modifications to the entity.
+   */
+  remove: function () { },
 
-	    },
+  /**
+   * Called on each scene tick.
+   */
+  // tick: function (t) { },
 
-	});
+  /**
+   * Called when entity pauses.
+   * Use to stop or remove any dynamic or background behavior such as events.
+   */
+  pause: function () { },
+
+  /**
+   * Called when entity resumes.
+   * Use to continue or add any dynamic or background behavior such as events.
+   */
+  play: function () { }
+});
 
 
-/***/ }
+/***/ })
 /******/ ]);
