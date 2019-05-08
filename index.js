@@ -29,19 +29,36 @@ AFRAME.registerComponent('scrim', {
     properties = properties.concat(properties,'; dur: ', data.durration, '; easing: ', data.easing)
 
     thisEl.setAttribute('animation', properties)
+
+    document.querySelector('a-scene').addEventListener('enter-vr', this.remove.bind(this));
+    document.querySelector('a-scene').addEventListener('exit-vr', this.update.bind(this));
+
   },
 
   /**
    * Called when component is attached and when component data changes.
    * Generally modifies the entity based on the data.
    */
-  update: function (oldData) { },
+  update: function (oldData) {
+    var thisEl = this.el;
+    var data = this.data
+
+    var properties = 'property: material.opacity; from: 0; to: 1; dir: alternate; loop: true'
+    properties = properties.concat(properties,'; dur: ', data.durration, '; easing: ', data.easing)
+
+    thisEl.setAttribute('animation', properties)
+   },
 
   /**
    * Called when a component is removed (e.g., via removeAttribute).
    * Generally undoes all modifications to the entity.
    */
-  remove: function () { },
+  remove: function () {
+    var thisEl = this.el;
+    
+    thisEl.removeAttribute('animation');
+    thisEl.setAttribute('opacity', '1.0')
+   },
 
   /**
    * Called on each scene tick.
